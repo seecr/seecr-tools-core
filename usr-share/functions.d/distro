@@ -1,0 +1,94 @@
+## begin license ##
+#
+# "Seecr Tools Core" provides the infrastructure for Seecr Tools
+#
+# Copyright (C) 2014 Seecr (Seek You Too B.V.) http://seecr.nl
+#
+# This file is part of "Seecr Tools Core"
+#
+# "Seecr Tools Core" is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# "Seecr Tools Core" is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with "Seecr Tools Core"; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+#
+## end license ##
+
+test -f /etc/debian_version && export DISTRO="debian" DISTRO_VERSION=$(cat /etc/debian_version | cut -d. -f1 | cut -d/ -f1 )
+test -f /etc/redhat-release && export DISTRO="redhat" DISTRO_VERSION=$(cat /etc/redhat-release | sed -e 's,^[^0-9]*\([0-9]\).*$,\1,')
+
+function distro_version_name {
+# Echo the name of the current linux distribution.
+    declare -a DEBIAN_NAME=("" "" "" "" "" "lenny" "squeeze" "wheezy" "jessie")
+    declare -a CENTOS_NAME=("" "" "" "" "" "centos5" "centos6" "centos7")
+    if distro_is_debian; then
+        numberRe="^[0-9]+([.][0-9]+)?$"
+        if ! [[ ${DISTRO_VERSION} =~ ${numberRe} ]]; then
+            echo ${DISTRO_VERSION}
+        else
+            echo ${DEBIAN_NAME[${DISTRO_VERSION}]}
+        fi
+    elif distro_is_redhat; then
+        echo ${CENTOS_NAME[${DISTRO_VERSION}]}
+    else
+        echo "unknown"
+    fi
+}
+
+function distro_is_debian {
+# Test if current distribution is Debian.
+    test "${DISTRO}" == "debian"
+}
+function distro_is_redhat {
+# Test if current distribution is Redhat/Centos.
+    test "${DISTRO}" == "redhat"
+}
+
+function distro_is_debian_etch {
+# Test if current distribution is Debian Etch.
+    distro_is_debian && test "${DISTRO_VERSION}" == "4" 
+}
+
+function distro_is_debian_lenny {
+# Test if current distribution is Debian Lenny.
+    distro_is_debian && test "${DISTRO_VERSION}" == "5" 
+}
+
+function distro_is_debian_squeeze {
+# Test if current distribution is Debian Squeeze.
+    distro_is_debian && test "${DISTRO_VERSION}" == "6"
+}
+
+function distro_is_debian_wheezy {
+# Test if current distribution is Debian Wheezy.
+    distro_is_debian && test "${DISTRO_VERSION}" == "7"
+}
+
+function distro_is_debian_jessie {
+# Test if current distribution is Debian Jessie.
+    distro_is_debian && test "${DISTRO_VERSION}" == "8" || test "${DISTRO_VERSION}" = "jessie"
+}
+
+function distro_is_centos_5 {
+# Test if current distribution is Centos 5.
+    distro_is_redhat && test "${DISTRO_VERSION}" == "5"
+}
+
+function distro_is_centos_6 {
+# Test if current distribution is Centos 6.
+    distro_is_redhat && test "${DISTRO_VERSION}" == "6"
+}
+
+function distro_is_centos_7 {
+# Test if current distribution is Centos 7.
+    distro_is_redhat && test "${DISTRO_VERSION}" == "7"
+}
+# vim: set syntax=sh: #
