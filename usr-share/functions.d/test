@@ -62,7 +62,7 @@ function removeDoNotDistribute() {
 function definePythonVars() {
     local pythonVersion=$1
     if [ -z "${pythonVersion}" ]; then
-        pythonVersion=$(ls /usr/bin/python2.[0-9] | awk -F/ '{print $NF}')
+        pythonVersion=$(ls /usr/bin/python2.[0-9] | awk -F/ '{print $NF}' | sort --version-sort | tail -n 1)
     fi
 
     if [[ ${pythonVersion} != python* ]]; then
