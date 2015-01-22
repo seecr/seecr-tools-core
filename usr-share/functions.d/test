@@ -60,29 +60,26 @@ function removeDoNotDistribute() {
 }
 
 function definePythonVars() {
-    if distro_is_debian_lenny; then
-        export PYTHON=python2.5
-        export SITEPACKAGES=`pwd`/tmp/usr/lib/python2.5/site-packages
-        export SEECRTEST_USR_BIN=`pwd`/tmp/usr/bin
-    elif distro_is_debian_squeeze; then 
-        export PYTHON=python2.6
-        export SITEPACKAGES=`pwd`/tmp/usr/local/lib/python2.6/dist-packages
+    local pythonVersion=$1
+    if [ -z "${pythonVersion}" ]; then
+        pythonVersion=$(ls /usr/bin/python2.[0-9] | awk -F/ '{print $NF}')
+    fi
+
+    if [[ ${pythonVersion} != python* ]]; then
+        pythonVersion=python${pythonVersion}
+    fi
+
+    if ! `which ${pythonVersion} >/dev/null`; then
+        echo "${pythonVersion} is not installed"
+        exit 1
+    fi
+
+    PYTHON=${pythonVersion}
+    if distro_is_debian; then
+        export SITEPACKAGES=`pwd`/tmp/usr/local/lib/${PYTHON}/dist-packages
         export SEECRTEST_USR_BIN=`pwd`/tmp/usr/local/bin
-    elif distro_is_debian_wheezy; then
-        version=2.7
-        if [ ! -z "$1" ]; then
-            version=$1
-        fi
-        export PYTHON=python${version}
-        export SITEPACKAGES=`pwd`/tmp/usr/local/lib/python${version}/dist-packages
-        export SEECRTEST_USR_BIN=`pwd`/tmp/usr/local/bin
-    elif distro_is_centos_5; then
-        export PYTHON=python2.5
-        export SITEPACKAGES=`pwd`/tmp/usr/lib/python2.5/site-packages
-        export SEECRTEST_USR_BIN=`pwd`/tmp/usr/bin
-    elif distro_is_centos_6; then 
-        export PYTHON=python2.6
-        export SITEPACKAGES=`pwd`/tmp/usr/lib/python2.6/site-packages
+    elif distro_is_redhat; then
+        export SITEPACKAGES=`pwd`/tmp/usr/lib/${PYTHON}/site-packages
         export SEECRTEST_USR_BIN=`pwd`/tmp/usr/bin
     else
         echo "This distro is not supported."
