@@ -27,7 +27,7 @@ source /usr/share/seecr-tools/functions.d/distro
 function runtests() {
     local tests_to_run=$1
     if [ -z "$tests_to_run" ]; then
-        tests_to_run=$(cd test; ls *.sh)
+        tests_to_run=$(cd test; ls *.sh | grep -v "^_")
     else
         shift
     fi
