@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 ## begin license ##
 # 
 # "Seecr Test" provides test tools. 
