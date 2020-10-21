@@ -1,27 +1,27 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 ## begin license ##
-# 
-# "Seecr Test" provides test tools. 
-# 
+#
+# "Seecr Tools Core" provides the infrastructure for Seecr Tools
+#
 # Copyright (C) 2010-2011 Seek You Too (CQ2) http://www.cq2.nl
-# Copyright (C) 2012 Seecr (Seek You Too B.V.) http://seecr.nl
-# 
-# This file is part of "Seecr Test"
-# 
-# "Seecr Test" is free software; you can redistribute it and/or modify
+# Copyright (C) 2012, 2020 Seecr (Seek You Too B.V.) https://seecr.nl
+#
+# This file is part of "Seecr Tools Core"
+#
+# "Seecr Tools Core" is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
-# "Seecr Test" is distributed in the hope that it will be useful,
+#
+# "Seecr Tools Core" is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
-# along with "Seecr Test"; if not, write to the Free Software
+# along with "Seecr Tools Core"; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-# 
+#
 ## end license ##
 
 from os.path import isfile, abspath, basename
@@ -44,11 +44,11 @@ def listTestsInFile(filename='', testname=''):
     for testname in (f.strip() for f in testname.split(',')):
         if not testname.endswith('Test'):
             return
-        print testname
+        print(testname)
         for line in open('%s.py' % filename.replace('.', '/')):
             match = defLineRe.search(line)
             if match:
-                print '%s.test%s' % (testname, match.groupdict()['defname'])
+                print('%s.test%s' % (testname, match.groupdict()['defname']))
 
 if __name__ == '__main__':
     if len(argv) == 2:

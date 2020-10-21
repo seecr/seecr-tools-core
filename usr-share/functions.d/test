@@ -2,7 +2,7 @@
 #
 # "Seecr Tools Core" provides the infrastructure for Seecr Tools
 #
-# Copyright (C) 2015 Seecr (Seek You Too B.V.) http://seecr.nl
+# Copyright (C) 2015, 2020 Seecr (Seek You Too B.V.) https://seecr.nl
 #
 # This file is part of "Seecr Tools Core"
 #
@@ -42,10 +42,10 @@ function runtests() {
     fi
 
     for test_to_run in $tests_to_run; do
-        (   
+        (
             cd tmp/test/$(dirname $test_to_run)
             ./$(basename $test_to_run) "$@"
-        )   
+        )
         if [ -z "$SEECRTEST_SKIP_PRESS_ENTER" ]; then
             echo "Finished $test_to_run. Press [ENTER] to continue"
             read
@@ -62,7 +62,7 @@ function removeDoNotDistribute() {
 function definePythonVars() {
     local pythonVersion=$1
     if [ -z "${pythonVersion}" ]; then
-        pythonVersion=$(ls /usr/bin/python2.[0-9] | awk -F/ '{print $NF}' | sort --version-sort | tail -n 1)
+        pythonVersion=$(ls /usr/bin/python3.[0-9] | awk -F/ '{print $NF}' | sort --version-sort | tail -n 1)
     fi
 
     if [[ ${pythonVersion} != python* ]]; then
@@ -84,7 +84,7 @@ function definePythonVars() {
     else
         echo "This distro is not supported."
         exit 1
-    fi 
+    fi
 
     export PYTHONPATH=${SITEPACKAGES}:${PYTHONPATH}
 }
