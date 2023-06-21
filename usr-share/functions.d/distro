@@ -27,7 +27,7 @@ test -f /etc/redhat-release && export DISTRO="redhat" DISTRO_VERSION=$(cat /etc/
 
 function distro_version_name {
 # Echo the name of the current linux distribution.
-    declare -a DEBIAN_NAME=("" "" "" "" "" "lenny" "squeeze" "wheezy" "jessie" "stretch" "buster" "bullseye")
+    declare -a DEBIAN_NAME=("" "" "" "" "" "lenny" "squeeze" "wheezy" "jessie" "stretch" "buster" "bullseye" "bookworm")
     declare -a CENTOS_NAME=("" "" "" "" "" "centos5" "centos6" "centos7" "centos8")
     if distro_is_debian; then
         numberRe="^[0-9]+([.][0-9]+)?$"
@@ -71,6 +71,15 @@ function distro_is_debian_buster {
 # Test if current distribution is Debian Buster
     distro_is_debian && test "${DISTRO_VERSION}" == "10" || test "${DISTRO_VERSION}" = "buster"
 }
+
+function distro_is_debian_bullseye {
+    distro_is_debian && test "${DISTRO_VERSION}" == "10" || test "${DISTRO_VERSION}" = "bullseye"
+}
+
+function distro_is_debian_bookworm {
+    distro_is_debian && test "${DISTRO_VERSION}" == "10" || test "${DISTRO_VERSION}" = "bookworm"
+}
+
 function distro_is_centos_6 {
 # Test if current distribution is Centos 6.
     distro_is_redhat && test "${DISTRO_VERSION}" == "6"
